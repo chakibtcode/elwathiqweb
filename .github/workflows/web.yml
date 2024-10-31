@@ -2,16 +2,19 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]  # or your default branch name
+    branches: [ main ]
   workflow_dispatch:
-#this test
+
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
       - uses: bluefireteam/flutter-gh-pages@v7
         with:
-          baseHref: /elwathiqweb/ 
+          baseHref: /
+          cname: hamzaben.com  # Add this line with your domain
