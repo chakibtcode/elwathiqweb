@@ -11,7 +11,7 @@ import 'package:elwathiqweb/controllers/MenuController.dart' as custom_menu;
 
 class Header extends StatelessWidget {
   custom_menu.MenuController _controller = custom_menu.MenuController();
-
+ChangeController conrollerChanger = Get.put(ChangeController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,7 +34,7 @@ class Header extends StatelessWidget {
                             color: Colors.white,
                           ),
                           onPressed: () {
-                            _controller.openOrCloseDrawer();
+                            conrollerChanger.changeScrenn();
                           },
                         ),
                       SvgPicture.asset("assets/icons/logo.svg"),
@@ -69,7 +69,9 @@ class Header extends StatelessWidget {
                   ),
                   FittedBox(
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                    _controller.changeScrenn();
+                      },
                       child: Row(
                         children: [
                           Text(
