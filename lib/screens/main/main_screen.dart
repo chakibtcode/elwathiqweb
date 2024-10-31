@@ -1,42 +1,42 @@
-import 'package:elwathiqweb/controllers/MenuController.dart';
-import 'package:elwathiqweb/screens/home/home_screen.dart';
-import 'package:elwathiqweb/screens/user/user_screen.dart';
+import 'package:elwathiqweb/constants/colors_const.dart';
+import 'package:elwathiqweb/controllers/MenuAppController.dart';
+import 'package:elwathiqweb/responsive.dart';
+import 'package:elwathiqweb/screens/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:elwathiqweb/controllers/MenuController.dart' as custom_menu;
+import 'package:get/get_core/src/get_main.dart';
 
-import '../../constants.dart';
-import 'components/header.dart';
 import 'components/side_menu.dart';
 
 class MainScreen extends StatelessWidget {
-  //final MenuController _controller = Get.put(MenuController());
-  
-  custom_menu.MenuController controller = custom_menu.MenuController();
-
   @override
+  MenuAppController controller = Get.put(MenuAppController());
+
   Widget build(BuildContext context) {
     return Scaffold(
-      key: controller.scaffoldkey,
+      key: controller.scaffoldKey,
+      backgroundColor: bgColor2,
       drawer: SideMenu(),
-      body:  GetBuilder<ChangeController>(
-        init: ChangeController(),
-                  builder: (controllerx) => SingleChildScrollView(
-          child: Column(
-            children: [
-              Header(),
-              ElevatedButton(onPressed: (){
-            controllerx.changeScrenn();
-        
-              }, child: Text("data")),
-              Container(
-                padding: EdgeInsets.all(kDefaultPadding),
-                constraints: BoxConstraints(maxWidth: kMaxWidth),
-                
-                child:  SafeArea(child: controllerx.screen)
+      body: SafeArea(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // We want this side menu only for large screen
+            if (Responsive.isDesktop(context))
+              Expanded(
+                // default flex = 1
+                // and it takes 1/6 part of the screen
+                child: SideMenu(),
               ),
-            ],
-          ),
+            GetBuilder<MenuAppController>(
+      init: MenuAppController(),
+      builder: (controller) => Expanded(
+                // It takes 5/6 part of the screen
+                flex: 5,
+                child: controller .screenSeleect [controller.indexSelect-1] ,
+              ),
+            ),
+          ],
         ),
       ),
     );

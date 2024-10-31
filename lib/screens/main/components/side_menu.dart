@@ -1,70 +1,126 @@
+import 'package:elwathiqweb/constants.dart';
+import 'package:elwathiqweb/constants/colors_const.dart';
+import 'package:elwathiqweb/controllers/MenuAppController.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:elwathiqweb/controllers/MenuController.dart';
-
-import '../../../constants.dart';
-import 'package:elwathiqweb/controllers/MenuController.dart' as custom_menu;
 
 class SideMenu extends StatelessWidget {
-  custom_menu.MenuController _controller = custom_menu.MenuController();
+  const SideMenu({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Container(
-        color: kDarkBlackColor,
-        child: Obx(
-          () => ListView(
-            children: [
-              DrawerHeader(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding * 3.5),
-                  child: SvgPicture.asset("assets/icons/logo.svg"),
-                ),
-              ),
-              ...List.generate(
-                _controller.menuItems.length,
-                (index) => DrawerItem(
-                  isActive: index == _controller.selectedIndex,
-                  title: _controller.menuItems[index],
-                  press: () {
-                    _controller.setMenuIndex(index);
-                  },
-                ),
-              ),
-            ],
-          ),
+      backgroundColor: witheColor,
+      child: GetBuilder<MenuAppController>(
+      init: MenuAppController(),
+      builder: (controller) => ListView(
+          children: [
+            DrawerHeader(
+             // child: Image.asset("assets/images/logo.png"),
+             child:  Padding(
+               padding: const EdgeInsets.symmetric(horizontal : 5.0),
+               child: SvgPicture.asset(
+                          "assets/images/logo.svg",
+                        ),
+             ),
+            ),
+            DrawerListTile(
+              title: "Home",
+             icon: Icons.home_filled,              press: () {
+                
+                controller.changeMenu(1);
+              },isSelect:controller.indexSelect == 1 ?  true : false,
+            ),
+            DrawerListTile(
+              title: "Orders",
+ icon: Icons.grid_view_rounded,              press: () {
+      
+                controller.changeMenu(2);
+              },isSelect:controller.indexSelect == 2 ?  true : false,
+            ),
+            DrawerListTile(
+              title: "Payment",
+ icon: Icons.attach_money_rounded,              press: () {
+      
+                controller.changeMenu(3);
+              },isSelect:controller.indexSelect == 3 ?  true : false,
+            ),
+            DrawerListTile(
+              title: "Users",
+ icon: Icons.person, press: () {
+      
+                controller.changeMenu(4);
+              },isSelect:controller.indexSelect == 4 ?  true : false,            ),
+            DrawerListTile(
+              title: "Providers",
+ icon: Icons.person,              press: () {
+      
+                controller.changeMenu(5);
+              },isSelect:controller.indexSelect == 5 ?  true : false,
+            ),
+            DrawerListTile(
+              title: "Coupon",
+ icon: Icons.redeem_rounded,              press: () {
+      
+                controller.changeMenu(6);
+              },isSelect:controller.indexSelect == 6 ?  true : false,
+            ),
+            DrawerListTile(
+              title: "Settings",
+ icon: Icons.settings_rounded,              press: () {
+      
+                controller.changeMenu(7);
+              },isSelect:controller.indexSelect == 7 ?  true : false,
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class DrawerItem extends StatelessWidget {
-  final String title;
-  final bool isActive;
-  final VoidCallback press;
-
-  const DrawerItem({
+class DrawerListTile extends StatelessWidget {
+  const DrawerListTile({
     Key? key,
+    // For selecting those three line once press "Command+D"
     required this.title,
-    required this.isActive,
+    required this.icon,
     required this.press,
+    required this.isSelect,
   }) : super(key: key);
+
+  final String title;
+   final IconData icon;
+  final VoidCallback press;
+  final bool isSelect;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return    Container(
+              margin: EdgeInsets.only(right: 5),
+                 decoration: BoxDecoration(
+                  color: isSelect ? redBluer : null , 
+                borderRadius: BorderRadius.only(bottomRight:Radius.circular(14) , topRight:Radius.circular(14) ),
+             
+              ),
+           
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        selected: isActive,
-        selectedTileColor: kPrimaryColor,
         onTap: press,
+        horizontalTitleGap: 0.0,
+        leading:Icon(icon,  color: isSelect ? primryColor : secondColor ,),
+        //  SvgPicture.asset(
+        //   svgSrc,
+        //   color: isSelect ? Colors.white : Colors.white54 ,
+        // //  colorFilter:  ColorFilter.mode( Colors.white54 , BlendMode.srcIn),
+        //   height: 16,
+        // ),
         title: Text(
           title,
-          style: TextStyle(color: Colors.white),
+          style:  TextStyle(color: isSelect ? primryColor : secondColor ),
         ),
       ),
     );
